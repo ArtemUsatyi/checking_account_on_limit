@@ -11,7 +11,7 @@ import static com.example.checking_account_on_limit.constance.AccountConst.SETTI
 
 @RestController
 @RequiredArgsConstructor
-public class AccountLimitController {
+public class AccountController {
 
     private final AccountService accountService;
 
