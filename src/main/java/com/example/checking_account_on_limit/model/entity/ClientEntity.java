@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "client_application_table")
+@Table(name = "client_application")
 public class ClientEntity {
 
     @Id
@@ -21,6 +21,15 @@ public class ClientEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private AccountEntity accountEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "info_transaction_id")
+    private InfoTransactionClientAccountEntity infoEntity;
+
+    public ClientEntity(String nameClient, AccountEntity accountEntity) {
+        this.nameClient = nameClient;
+        this.accountEntity = accountEntity;
+    }
 
     public ClientEntity(String nameClient) {
         this.nameClient = nameClient;

@@ -1,6 +1,6 @@
 package com.example.checking_account_on_limit.controller;
 
-import com.example.checking_account_on_limit.model.AccountModel;
+import com.example.checking_account_on_limit.model.AccountRequest;
 import com.example.checking_account_on_limit.model.ClientModel;
 import com.example.checking_account_on_limit.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,15 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(REGISTRATION_TRANSACTION)
-    public void registrationTransaction(@RequestBody AccountModel accountModel) {
+    public void registrationTransaction(@RequestBody AccountRequest accountRequest) {
 
     }
 
     @PostMapping(SETTING_BALANCE_LIMIT)
-    public String settingBalance(@RequestBody ClientModel clientModel, @RequestParam Long balanceLimit) {
+    public String settingBalance(@RequestBody ClientModel clientModel,
+                                 @RequestParam Long balanceLimit,
+                                 @RequestParam String typeUnit) {
 
-        return accountService.setBalance(clientModel, balanceLimit);
+        return accountService.setBalance(clientModel, typeUnit, balanceLimit);
     }
 }

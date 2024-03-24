@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "account_application_table")
+@Table(name = "account_application")
 public class AccountEntity {
 
     @Id
@@ -20,34 +20,19 @@ public class AccountEntity {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Column(name = "type_currency")
-    private String typeCurrency;
+    @Column(name = "type_unit")
+    private String typeUnit;
 
-    @Column(name = "limit_balance")
-    private Long limitBalance;
-
-    @Column(name = "current balance")
-    private Long currentBalance;
-
-    @Column(name = "date_transaction")
-    private LocalDate dateTransaction;
-
-    @Column(name = "amount_transaction")
-    private Long amountTransaction;
-
-    @Column(name = "limit_exceeded")
-    private Boolean limitExceeded;
+    @Column(name = "limit_account")
+    private Long limitAccount;
 
     @OneToOne(mappedBy = "accountEntity")
     private ClientEntity clientEntity;
 
-    public AccountEntity(LocalDate startDate, String typeCurrency, Long limitBalance, Long currentBalance, LocalDate dateTransaction, Long amountTransaction, Boolean limitExceeded) {
+
+    public AccountEntity(LocalDate startDate, String typeUnit, Long limitAccount) {
         this.startDate = startDate;
-        this.typeCurrency = typeCurrency;
-        this.limitBalance = limitBalance;
-        this.currentBalance = currentBalance;
-        this.dateTransaction = dateTransaction;
-        this.amountTransaction = amountTransaction;
-        this.limitExceeded = limitExceeded;
+        this.typeUnit = typeUnit;
+        this.limitAccount = limitAccount;
     }
 }

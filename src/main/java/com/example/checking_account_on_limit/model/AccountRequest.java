@@ -9,12 +9,9 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountModel {
+public class AccountRequest {
 
     private LocalDate startDate;
-    private String typeCurrency;
+    private String typeUnit;
     private Long limitBalance;
-    private Long currentBalance;
-    private LocalDate dateTransaction;
-    private Long amountTransaction;
 }
