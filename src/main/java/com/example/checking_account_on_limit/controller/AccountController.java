@@ -1,7 +1,7 @@
 package com.example.checking_account_on_limit.controller;
 
 import com.example.checking_account_on_limit.model.AccountRequest;
-import com.example.checking_account_on_limit.model.ClientModel;
+import com.example.checking_account_on_limit.model.TransactionRequest;
 import com.example.checking_account_on_limit.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +16,13 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(REGISTRATION_TRANSACTION)
-    public void registrationTransaction(@RequestBody AccountRequest accountRequest) {
-
+    public String registrationTransaction(@RequestBody TransactionRequest transactionRequest) {
+        return accountService.transactionRequest(transactionRequest);
     }
 
     @PostMapping(SETTING_BALANCE_LIMIT)
-    public String settingBalance(@RequestBody ClientModel clientModel,
-                                 @RequestParam Long balanceLimit,
-                                 @RequestParam String typeUnit) {
+    public String settingBalance(@RequestBody AccountRequest accountRequest) {
 
-        return accountService.setBalance(clientModel, typeUnit, balanceLimit);
+        return accountService.setBalance(accountRequest);
     }
 }

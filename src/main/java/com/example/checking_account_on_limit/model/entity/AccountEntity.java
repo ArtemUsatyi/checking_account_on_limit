@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,22 +18,33 @@ public class AccountEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    @Column(name = "account_from")
+    private Long accountFrom; // банковский счет клиента
 
-    @Column(name = "type_unit")
-    private String typeUnit;
+    @Column(name = "limit_sum_account")
+    private Double limitSum; // лимит по сумме
 
-    @Column(name = "limit_account")
-    private Long limitAccount;
+    @Column(name = "limit_datetime")
+    private LocalDateTime limitDatetime; // установление даты
 
-    @OneToOne(mappedBy = "accountEntity")
-    private ClientEntity clientEntity;
+    @Column(name = "currency_shortname")
+    private String currencyShortname; // валюта счета
 
+    @Column(name = "sum_product")
+    private Double sumProduct; // сумма по product
 
-    public AccountEntity(LocalDate startDate, String typeUnit, Long limitAccount) {
-        this.startDate = startDate;
-        this.typeUnit = typeUnit;
-        this.limitAccount = limitAccount;
+    @Column(name = "sum_service")
+    private Double sumService; // сумма по service
+
+    @OneToMany(mappedBy = "accountEntity")
+    private List<InfoTransactionAccountEntity> listInfo;
+
+    public AccountEntity(Long accountFrom, Double limitSum, LocalDateTime limitDatetime, String currencyShortname, Double sumProduct, Double sumService) {
+        this.accountFrom = accountFrom;
+        this.limitSum = limitSum;
+        this.limitDatetime = limitDatetime;
+        this.currencyShortname = currencyShortname;
+        this.sumProduct = sumProduct;
+        this.sumService = sumService;
     }
 }

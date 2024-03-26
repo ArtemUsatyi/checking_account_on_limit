@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountRequest {
+public class TransactionRequest {
     private Long accountFrom;
+    private Long accountTo;
     private String currencyShortname;
-    private Double limitSum;
+    private Double sum;
+    private String expenseCategory;
+    private LocalDateTime datetime;
 }
