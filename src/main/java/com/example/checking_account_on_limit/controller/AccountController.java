@@ -4,7 +4,9 @@ import com.example.checking_account_on_limit.model.AccountRequest;
 import com.example.checking_account_on_limit.model.TransactionRequest;
 import com.example.checking_account_on_limit.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.checking_account_on_limit.constance.AccountConst.REGISTRATION_TRANSACTION;
 import static com.example.checking_account_on_limit.constance.AccountConst.SETTING_BALANCE_LIMIT;

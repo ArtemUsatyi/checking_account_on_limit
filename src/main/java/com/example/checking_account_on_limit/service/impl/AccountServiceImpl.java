@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.example.checking_account_on_limit.constance.AccountConst.NON_VALID_FIELD_CLIENT;
-import static com.example.checking_account_on_limit.constance.AccountConst.SET_CURRENT_LIMIT;
+import static com.example.checking_account_on_limit.constance.AccountConst.*;
 import static java.util.Objects.isNull;
 
 @Service
@@ -36,10 +35,9 @@ public class AccountServiceImpl implements AccountService {
         AccountEntity account = accountRepository.findByAccountFrom(transReq.getAccountFrom());
         if (!isNull(account)) {
             createIntoTransaction(account, transReq);
-
         } else {
             LocalDateTime date = LocalDateTime.now();
-            AccountEntity accEnt = new AccountEntity(transReq.getAccountFrom(), limitSum, date, limitCurrShortname, limitSum, limitSum);
+            AccountEntity accEnt = new AccountEntity(transReq.getAccountFrom(), limitSum, date, limitCurrShortname, limitSum, limitSum, false);
             accountRepository.save(accEnt);
 
             createIntoTransaction(accEnt, transReq);
@@ -69,14 +67,16 @@ public class AccountServiceImpl implements AccountService {
         infoTransactionRepository.save(infoTransEntity);
     }
 
-
     public String setBalance(AccountRequest accountRequest) {
         if (checkFieldsValidClient(accountRequest)) {
             return NON_VALID_FIELD_CLIENT;
         }
+        if (checkSettingNewLimit(accountRequest)) {
+            return USER_NOT_CHANGE_LIMIT;
+        }
 
         LocalDateTime date = LocalDateTime.now();
-        AccountEntity accountEntity = new AccountEntity(accountRequest.getAccountFrom(), accountRequest.getLimitSum(), date, accountRequest.getCurrencyShortname(), accountRequest.getLimitSum(), accountRequest.getLimitSum());
+        AccountEntity accountEntity = new AccountEntity(accountRequest.getAccountFrom(), accountRequest.getLimitSum(), date, accountRequest.getCurrencyShortname(), accountRequest.getLimitSum(), accountRequest.getLimitSum(), true);
         accountRepository.save(accountEntity);
 
         return SET_CURRENT_LIMIT;
@@ -84,5 +84,13 @@ public class AccountServiceImpl implements AccountService {
 
     private Boolean checkFieldsValidClient(AccountRequest accountRequest) {
         return isNull(accountRequest.getAccountFrom());
+    }
+
+    private Boolean checkSettingNewLimit(AccountRequest accountRequest) {
+        AccountEntity account = accountRepository.findByAccountFrom(accountRequest.getAccountFrom());
+        if (isNull(account)) {
+            return false;
+        }
+        return account.getFlagLimitSum();
     }
 }

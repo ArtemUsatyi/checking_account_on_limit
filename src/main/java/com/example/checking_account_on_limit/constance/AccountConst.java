@@ -11,7 +11,7 @@ public class AccountConst {
     /**
      * Message constance
      */
-    public final static String NON_VALID_FIELD_CLIENT = "поля клиент не валидны.";
+    public final static String NON_VALID_FIELD_CLIENT = "поле клиента не валидны.";
     public final static String SET_CURRENT_LIMIT = "Текущий лимит установлен";
-    public final static String USER_NOT_CHANGE_LIMIT = "Пользователь не может изменить лимит баланса";
+    public final static String USER_NOT_CHANGE_LIMIT = "Лимит уже изменен. Клиент не может изменить лимит.";
 }

@@ -24,6 +24,9 @@ public class AccountEntity {
     @Column(name = "limit_sum_account")
     private Double limitSum; // лимит по сумме
 
+    @Column(name = "flag_limit_sum")
+    private Boolean flagLimitSum; // флаг по установке лимита
+
     @Column(name = "limit_datetime")
     private LocalDateTime limitDatetime; // установление даты
 
@@ -39,12 +42,13 @@ public class AccountEntity {
     @OneToMany(mappedBy = "accountEntity")
     private List<InfoTransactionAccountEntity> listInfo;
 
-    public AccountEntity(Long accountFrom, Double limitSum, LocalDateTime limitDatetime, String currencyShortname, Double sumProduct, Double sumService) {
+    public AccountEntity(Long accountFrom, Double limitSum, LocalDateTime limitDatetime, String currencyShortname, Double sumProduct, Double sumService, Boolean flagLimitSum) {
         this.accountFrom = accountFrom;
         this.limitSum = limitSum;
         this.limitDatetime = limitDatetime;
         this.currencyShortname = currencyShortname;
         this.sumProduct = sumProduct;
         this.sumService = sumService;
+        this.flagLimitSum=flagLimitSum;
     }
 }
