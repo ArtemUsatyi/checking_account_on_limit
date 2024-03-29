@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class TransactionRequest {
     private Long accountFrom;
     private Long accountTo;
-    private String currencyShortname;
+    private String nameCurrencyTransaction;
     private Double sum;
     private String expenseCategory;
     private LocalDateTime datetime;

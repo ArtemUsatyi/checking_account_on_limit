@@ -1,6 +1,5 @@
 package com.example.checking_account_on_limit.controller;
 
-import com.example.checking_account_on_limit.model.CurrencyPairRequest;
 import com.example.checking_account_on_limit.model.entity.CurrencyEntity;
 import com.example.checking_account_on_limit.service.ConversionService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class ConversionController {
     private final ConversionService conversionService;
 
     @PostMapping(TEST_SETTING_CONVERSION)
-    public CurrencyEntity conversionPair(@RequestBody CurrencyPairRequest pair) {
+    public CurrencyEntity conversionPair(@RequestBody String pair) {
         return conversionService.gettingExchangeRate(pair);
     }
 }

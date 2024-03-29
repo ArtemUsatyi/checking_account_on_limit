@@ -35,11 +35,14 @@ public class InfoTransactionAccountEntity {
     @Column(name = "account_to")
     private Long accountTo; // банковский счет контрагента
 
+    @Column(name = "currency_shortname")
+    private String currencyShortname; // валюта счета
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity accountEntity;
 
-    public InfoTransactionAccountEntity(LocalDateTime dateTransaction, Double sum, Boolean limitExceeded, String expenseCategory, Long accountFrom, Long accountTo, AccountEntity accountEntity) {
+    public InfoTransactionAccountEntity(LocalDateTime dateTransaction, Double sum, Boolean limitExceeded, String expenseCategory, Long accountFrom, Long accountTo, AccountEntity accountEntity, String currencyShortname) {
         this.dateTransaction = dateTransaction;
         this.sum = sum;
         this.limitExceeded = limitExceeded;
@@ -47,5 +50,6 @@ public class InfoTransactionAccountEntity {
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.accountEntity = accountEntity;
+        this.currencyShortname=currencyShortname;
     }
 }

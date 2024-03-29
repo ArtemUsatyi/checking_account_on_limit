@@ -3,10 +3,12 @@ package com.example.checking_account_on_limit.service.impl;
 import com.example.checking_account_on_limit.model.AccountRequest;
 import com.example.checking_account_on_limit.model.TransactionRequest;
 import com.example.checking_account_on_limit.model.entity.AccountEntity;
+import com.example.checking_account_on_limit.model.entity.CurrencyEntity;
 import com.example.checking_account_on_limit.model.entity.InfoTransactionAccountEntity;
 import com.example.checking_account_on_limit.repository.AccountRepository;
 import com.example.checking_account_on_limit.repository.InfoTransactionRepository;
 import com.example.checking_account_on_limit.service.AccountService;
+import com.example.checking_account_on_limit.service.ConversionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final InfoTransactionRepository infoTransactionRepository;
+    private final ConversionService conversionService;
 
     @Value("${limit.sum.default}")
     private Double limitSum;
@@ -46,24 +49,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void createIntoTransaction(AccountEntity account, TransactionRequest transReq) {
+        Double valueRate = conversionCurrency(transReq);
         boolean limitExceeded = true;
 
         if (transReq.getExpenseCategory().equals("product")) {
-            account.setSumProduct(account.getSumProduct() - transReq.getSum());
+            account.setSumProduct(account.getSumProduct() - (transReq.getSum() * valueRate));
             Double limitSumProduct = account.getSumProduct();
             if (limitSumProduct < 0.0) {
                 limitExceeded = false;
             }
 
         } else if ((transReq.getExpenseCategory().equals("service"))) {
-            account.setSumService(account.getSumService() - transReq.getSum());
+            account.setSumService(account.getSumService() - (transReq.getSum() * valueRate));
             Double limitSumService = account.getSumService();
             if (limitSumService < 0) {
                 limitExceeded = false;
             }
         }
-        InfoTransactionAccountEntity infoTransEntity = new InfoTransactionAccountEntity(transReq.getDatetime(), transReq.getSum(), limitExceeded, transReq.getExpenseCategory(), transReq.getAccountFrom(), transReq.getAccountTo(), account);
+        InfoTransactionAccountEntity infoTransEntity = new InfoTransactionAccountEntity(transReq.getDatetime(), transReq.getSum() * valueRate, limitExceeded, transReq.getExpenseCategory(), transReq.getAccountFrom(), transReq.getAccountTo(), account, transReq.getNameCurrencyTransaction());
         infoTransactionRepository.save(infoTransEntity);
+    }
+
+    private Double conversionCurrency(TransactionRequest transReq) {
+        String nameCurrency = transReq.getNameCurrencyTransaction() + "/USD";
+        CurrencyEntity currencyEntity = conversionService.gettingExchangeRate(nameCurrency);
+        return currencyEntity.getValueRate();
     }
 
     public String setBalance(AccountRequest accountRequest) {
