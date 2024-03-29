@@ -31,8 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String transactionRequest(TransactionRequest transReq) {
-
         AccountEntity account = accountRepository.findByAccountFrom(transReq.getAccountFrom());
+
         if (!isNull(account)) {
             createIntoTransaction(account, transReq);
         } else {
@@ -42,7 +42,6 @@ public class AccountServiceImpl implements AccountService {
 
             createIntoTransaction(accEnt, transReq);
         }
-
         return null;
     }
 
