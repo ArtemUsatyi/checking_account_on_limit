@@ -29,7 +29,7 @@ public class ConversionServiceImpl implements ConversionService {
     private final CurrencyRepository currencyRepository;
 
     @Value("${twelve.data.conversion.url}")
-    private java.lang.String URL;
+    private String URL;
 
     @Override
     public CurrencyEntity gettingExchangeRate(String nameCurrency) {
