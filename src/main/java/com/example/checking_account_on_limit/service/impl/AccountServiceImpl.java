@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.example.checking_account_on_limit.constance.AccountConst.*;
+import static com.example.checking_account_on_limit.constance.ConstApplication.*;
 import static java.util.Objects.isNull;
 
 @Service
@@ -34,21 +34,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String transactionRequest(TransactionRequest transReq) {
-        AccountEntity account = accountRepository.findByAccountFrom(transReq.getAccountFrom());
-
-        if (!isNull(account)) {
-            createIntoTransaction(account, transReq);
-        } else {
-            LocalDateTime date = LocalDateTime.now();
-            AccountEntity accEnt = new AccountEntity(transReq.getAccountFrom(), limitSum, date, limitCurrShortname, limitSum, limitSum, false);
-            accountRepository.save(accEnt);
-
-            createIntoTransaction(accEnt, transReq);
+        if (isNull(transReq)) {
+            return NON_VALID_FIELD_CLIENT;
         }
-        return null;
+        return checkAccount(transReq);
     }
 
-    private void createIntoTransaction(AccountEntity account, TransactionRequest transReq) {
+    private String createIntoTransaction(AccountEntity account, TransactionRequest transReq) {
+
         Double valueRate = conversionCurrency(transReq);
         boolean limitExceeded = true;
 
@@ -68,6 +61,17 @@ public class AccountServiceImpl implements AccountService {
         }
         InfoTransactionAccountEntity infoTransEntity = new InfoTransactionAccountEntity(transReq.getDatetime(), transReq.getSum() * valueRate, limitExceeded, transReq.getExpenseCategory(), transReq.getAccountFrom(), transReq.getAccountTo(), account, transReq.getNameCurrencyTransaction());
         infoTransactionRepository.save(infoTransEntity);
+        return "Транзакция успешно сохранена";
+    }
+
+    private String checkAccount(TransactionRequest transReq) {
+        AccountEntity account = accountRepository.findByAccountFrom(transReq.getAccountFrom());
+        if (isNull(account)) {
+            LocalDateTime date = LocalDateTime.now();
+            AccountEntity accEnt = new AccountEntity(transReq.getAccountFrom(), limitSum, date, limitCurrShortname, limitSum, limitSum, false);
+            accountRepository.save(accEnt);
+            return createIntoTransaction(accEnt, transReq);
+        } else return createIntoTransaction(account, transReq);
     }
 
     private Double conversionCurrency(TransactionRequest transReq) {
@@ -77,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public String setBalance(AccountRequest accountRequest) {
-        if (checkFieldsValidClient(accountRequest)) {
+        if (isNull(accountRequest)) {
             return NON_VALID_FIELD_CLIENT;
         }
         if (checkSettingNewLimit(accountRequest)) {
@@ -89,10 +93,6 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(accountEntity);
 
         return SET_CURRENT_LIMIT;
-    }
-
-    private Boolean checkFieldsValidClient(AccountRequest accountRequest) {
-        return isNull(accountRequest.getAccountFrom());
     }
 
     private Boolean checkSettingNewLimit(AccountRequest accountRequest) {

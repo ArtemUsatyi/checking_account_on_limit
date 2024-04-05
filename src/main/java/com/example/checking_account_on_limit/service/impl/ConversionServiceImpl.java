@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-import static com.example.checking_account_on_limit.constance.AccountConst.JSON_MESSAGE_ERROR;
+import static com.example.checking_account_on_limit.constance.ConstApplication.JSON_MESSAGE_ERROR;
 import static java.util.Objects.isNull;
 
 @Service
