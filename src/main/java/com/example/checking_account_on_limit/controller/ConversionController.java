@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.checking_account_on_limit.constance.AccountConst.TEST_SETTING_CONVERSION;
+import static com.example.checking_account_on_limit.constance.ConstApplication.TEST_SETTING_CONVERSION;
 
 @RestController
 @RequiredArgsConstructor

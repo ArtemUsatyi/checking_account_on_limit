@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.checking_account_on_limit.constance.AccountConst.REGISTRATION_TRANSACTION;
-import static com.example.checking_account_on_limit.constance.AccountConst.SETTING_BALANCE_LIMIT;
+import static com.example.checking_account_on_limit.constance.ConstApplication.REGISTRATION_TRANSACTION;
+import static com.example.checking_account_on_limit.constance.ConstApplication.SETTING_BALANCE_LIMIT;
 
 @RestController
 @RequiredArgsConstructor
